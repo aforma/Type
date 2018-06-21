@@ -17,11 +17,11 @@
   "author": "Giulian Drimba <giuliandrimba@gmail.com>",
   "license": "ISC",
   "devDependencies": {
-    "babel-core": "^6.26.0",
+    "babel-core": "^6.26.3",
     "babelify": "^8.0.0",
-    "budo": "^8.3.0",
-    "http-server": "^0.8.0",
-    "nodegit": "^0.14.1"
+    "budo": "^11.3.0",
+    "http-server": "^0.11.1",
+    "nodegit": "^0.22.1"
   },
   "dependencies": {
     "@doublepi/calc": "^1.0.1",

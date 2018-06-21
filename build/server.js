@@ -11,6 +11,7 @@ var engine = loop(function(dt) {
 
 var serverEnv = env(engine);
 var ctx = serverEnv.createContext();
-sketch.setup(ctx, serverEnv);
+var scale = ctx.canvas.width / config.thumbnail_size;
+sketch.setup(ctx, serverEnv, scale);
 
 console.log("– Artwork started at ".yellow + moment().format("HH:mm:ss").green)

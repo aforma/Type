@@ -3,12 +3,8 @@ var Letter = require('./letter');
 
 var ctx = undefined;
 var env = undefined;
-var imageCanvas = undefined;
-var image = undefined;
-var texts = []
-var NUM_COLS = 20;
+var scale = undefined;
 var COL_WIDTH = 0;
-var NUM_ROWS = 20;
 var COL_HEIGHT = 0;
 
 var START_X = 0;
@@ -22,25 +18,28 @@ var current = undefined;
 var USED_LETTER = alphabet.C;
 var saved = false;
 
-exports.setup = function(_ctx, _env){
+exports.setup = function(_ctx, _env, _scale){
   ctx = _ctx;
   env = _env;
-
-  COL_WIDTH = 15
-  COL_HEIGHT =15;
-
-  NUM_COLS = Math.ceil(ctx.canvas.width / COL_WIDTH)
-  NUM_ROWS = Math.ceil(ctx.canvas.height / COL_HEIGHT);
+  scale = _scale;
 
   time = Date.now()
 
-  START_X = ctx.canvas.width / 2 - 11
-  START_Y = ctx.canvas.height - 100
-  letter = new Letter(START_X, START_Y, USED_LETTER, ctx);
+  START_X = (ctx.canvas.width / 2);
+  START_Y = (ctx.canvas.height - (60 * scale ))
+  letter = new Letter(START_X, START_Y, USED_LETTER, ctx, scale);
+
+  if(env.server) {
+    setTimeout(()=>{
+      env.done()
+    }, 60000);
+  }
 }
 
 exports.draw = function() {
   current = Date.now()
+  if(current > time + 1000) {
+  }
   if(current > time) {
     time = current
     if(letter.evolve()) {
@@ -48,12 +47,10 @@ exports.draw = function() {
       letter.draw()
     } else {
       if (!saved) {
-        console.log('done')
-        env.done()
+        // env.done()
         saved = true;
       }
     }
-    // drawLetter()
   }
 }
 
@@ -61,7 +58,7 @@ function drawLetter() {
   var total = USED_LETTER.length;
   ctx.beginPath();
   for(var i = 0; i < total; i+= 2) {
-    ctx.lineTo(START_X + parseFloat(USED_LETTER[i]), START_Y + parseFloat(USED_LETTER[i + 1]));
+    ctx.lineTo(START_X + parseFloat(USED_LETTER[i] * scale), START_Y + parseFloat(USED_LETTER[i + 1] * scale));
   }
   ctx.stroke();
 }
